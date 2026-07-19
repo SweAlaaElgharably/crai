@@ -1,0 +1,129 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-bookworm
+    container_name: postgres
+    env_file:
+      - ./backend/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: django
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      gunicorn crai_backend.wsgi:application
+      --bind 0.0.0.0:8000
+      --workers 3
+      --timeout 120
+      "
+    env_file:
+      - ./backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: nextjs
+	env_file:
+      - ./frontend/.env  
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - static_volume:/var/www/static
+      - media_volume:/var/www/media
+    restart: unless-stopped
+    command: >
+      /bin/sh -c
+      "while :; do
+      sleep 6h & wait $$!;
+      nginx -s reload;
+      done &
+      nginx -g 'daemon off;'"
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: >
+      /bin/sh -c
+      "trap exit TERM;
+      while :;
+      do
+      certbot renew;
+      sleep 12h & wait $$!;
+      done"
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+networks:
+  app-network:
+    driver: bridge
+
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    'lesson.apps.LessonConfig',
+    'payment.apps.PaymentConfig',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
