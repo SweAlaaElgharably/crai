@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 24 150 28"
+    preserveAspectRatio="none">
+
+    <style>
+        @keyframes m {
+            from { transform: translateX(-90px); }
+            to { transform: translateX(85px); }
+        }
+
+        .l0 { animation: m 8s linear infinite 0s; }
+        .l1 { animation: m 11s linear infinite -2s; }
+        .l2 { animation: m 14s linear infinite -4s; }
+    </style>
+
+    <defs>
+        <linearGradient id="g1782732602764">
+            <stop stop-color="#08a39e" />
+            <stop offset="1" stop-color="#0abab5" />
+        </linearGradient>
+
+        <path
+            id="w"
+            d="M -160 40 Q -116 29 -72 40 Q -28 51 16 40 Q 60 29 104 40 Q 148 51 192 40 L 192 80 L -160 80 Z" />
+    </defs>
+
+    <g>
+        <use
+            href="#w"
+            x="48"
+            y="0"
+            fill="url(#g1782732602764)"
+            opacity="0.3"
+            class="l0" />
+
+        <use
+            href="#w"
+            x="58"
+            y="3"
+            fill="url(#g1782732602764)"
+            opacity="0.4"
+            class="l1" />
+
+        <use
+            href="#w"
+            x="68"
+            y="6"
+            fill="url(#g1782732602764)"
+            opacity="0.5"
+            class="l2" />
+    </g>
+</svg>

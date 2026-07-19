@@ -1,0 +1,158 @@
+{
+    "home": {
+        "home": "Home",
+        "about": "About",
+        "creators": "Creators",
+        "explore": "Explore",
+        "contact": "Contact",
+        "login": "Login",
+        "register": "Register",
+        "cart": "Cart",
+        "items": "Items",
+        "emptyCart": "Your cart is empty",
+        "emptyCartDescription": "Browse our contents and add them to your cart",
+        "exploreButton": "Explore",
+        "checkout": "Checkout",
+        "total": "Total",
+        "remove": "Remove",
+        "currency": "SAR",
+        "inspire": "Inspire & Get Inspired",
+        "herotitle": "Where Creativity Meets Belonging.",
+        "herotext": "A Saudi platform connecting creators and supporters through exclusive content, meaningful communities and real opportunity.",
+        "whocrai": "We bring creators and fans closer than ever. Whether you share your art, your ideas or your story, CRAI is your home to build, earn and connect.",
+        "becometitle": "Turn your passion into income.",
+        "becometext": "Creators on CRAI earn through memberships, tips and exclusive content. You decide what to share and who gets access. Build your own private space for your biggest supporters.",
+        "discovertitle": "Get closer to the people you love.",
+        "discovertext": "Support your favorite creators, access exclusive content, and be part of their journey. On CRAI, you don’t just follow you belong."
+    },
+    "about": {
+        "herotext": "CRAI empowers a new generation of Arab creators to share their voice globally while staying true to local values. We believe in creative freedom, cultural respect, and economic opportunity for every dreamer.",
+        "wtitle1": "Discover documents and videos from our top creators",
+        "wtext1": "Explore thousands of videos across multiple categories and find creators that match your interests.",
+        "wtitle2": "Purchase quickly and securely",
+        "wtext2": "Easy checkout process with multiple payment options and instant access to your content.",
+        "wtitle3": "Start your journey right away!",
+        "wtext3": "Begin your journey immediately with unlimited access to different creators and communities.",
+        "stitle1": "Connect Through Community",
+        "stext1": "Bring creators and fans together in exclusive communities built around shared passions.",
+        "stitle2": "Exclusive Content",
+        "stext2": "Unlock members only content, behind-the-scenes updates, and unique experiences from your favorite creators.",
+        "stitle3": "Meaningful Connections",
+        "stext3": "Join thriving communities where creators and supporters interact, share and grow together.",
+        "stitle4": "Professional Content",
+        "stext4": "Videos created by industry experts meeting professional standards.",
+        "jtitle": "your journey with when and where you like.",
+        "jdes": "Use the list below to bring attention to your product's key differentiator.",
+        "jtext1": "Hand-picked creators",
+        "jtext2": "Easy to follow videos",
+        "jtext3": "Free content",
+        "jtext4": "Money-back guarantee",
+        "jtext5": "Join for free"
+    },
+    "faqs": [
+        {
+            "question": "What is CRAI?",
+            "answer": "CRAI is a Saudi-based platform that connects creators, artists, influencers, educators, designers and more with their fans and supporters. Creators can share exclusive content, memberships and experiences while supporters can back their favorite creators directly and enjoy private perks."
+        },
+        {
+            "question": "Who can join CRAI?",
+            "answer": "Anyone can join whether you're a creator or a supporter. Creators can come from any field (art, design, education, tech, lifestyle) and users can subscribe to or support as many creators as they want."
+        },
+        {
+            "question": "How do creators earn money on CRAI?",
+            "answer": "Creators earn through: Memberships or subscriptions, Exclusive paid content, Tips or one-time support from fans, Brand collaborations and partnerships (coming soon). Earnings are securely transferred to the creator's chosen account through Saudi-approved payment partners."
+        },
+        {
+            "question": "Is CRAI available worldwide?",
+            "answer": "CRAI is based in Saudi Arabia, but open to creators and users worldwide. Our platform supports both Arabic and English and accepts international payments."
+        },
+        {
+            "question": "How do I become a creator?",
+            "answer": "Simply click \"Become a Creator\" on our homepage, create an account and set up your profile. You'll be able to upload content, set membership levels and start earning once verified."
+        },
+        {
+            "question": "How does CRAI protect my data?",
+            "answer": "We follow the Saudi Personal Data Protection Law (PDPL) and international privacy standards. Your data is encrypted, never sold and only used to operate your account safely. You can read our full Privacy Policy for details."
+        },
+        {
+            "question": "What kind of content is allowed?",
+            "answer": "CRAI supports creative, educational and entertaining content that aligns with Saudi and international content laws. We do not allow content that violates local culture, religious sensitivities or copyright."
+        },
+        {
+            "question": "Can I use CRAI for business or brand partnerships?",
+            "answer": "Yes, Brands and companies can collaborate with creators through sponsorships and campaigns. If you're a brand interested in partnerships, contact us at partners@cr-ai.cloud"
+        },
+        {
+            "question": "How can I contact CRAI?",
+            "answer": "For general questions: support@cr-ai.cloud, For privacy matters: privacy@cr-ai.cloud, For business partnerships: partners@cr-ai.cloud, For media inquiries: media@cr-ai.cloud"
+        },
+        {
+            "question": "What languages does CRAI support?",
+            "answer": "CRAI is fully available in Arabic and English with more regional languages planned soon."
+        },
+        {
+            "question": "Is there a mobile app?",
+            "answer": "Yes, the CRAI mobile app (iOS and Android) is in development and will be released soon. Until then, you can access the full platform through any browser on mobile or desktop."
+        },
+        {
+            "question": "How does CRAI handle refunds or payment issues?",
+            "answer": "Refunds are handled on a case-by-case basis through our support team. If you experience a payment issue, email billing@cr-ai.cloud and our team will resolve it within 3–5 business days."
+        },
+        {
+            "question": "Why is it called CRAI?",
+            "answer": "The name CRAI, short for Creative AI, captures the spirit of modern artistry where creativity meets smart technology. It symbolizes a vibrant, forward-thinking space designed to elevate creators and spark authentic engagement between them and their fans."
+        }
+    ],
+    "terms": {
+        "text0": "We're on a mission to deliver engaging, curated courses at a reasonable price. These terms help protect the balance between the experience you expect and the trust you place in CRAI.",
+        "text1": "You agree to access CRAI only through the interfaces we provide and in accordance with the instructions we publish. You may use our Services only as permitted by law, including applicable export and re-export control laws and regulations. We may suspend or stop providing our Services to you if you do not comply with our terms or policies, if you misuse the Services, or if we are investigating suspected misconduct. Using our Services does not give you ownership of any intellectual property rights in the Services or the content you access. You may not remove, obscure or alter any legal notices displayed in or along with the Services.",
+        "text2": "When you submit, store or send content to or through the Services, you give CRAI (and those we work with) a worldwide license to use, host, store, reproduce, modify, create derivative works, communicate, publish, publicly perform, publicly display and distribute such content for the purpose of operating, promoting and improving the Services and to develop new ones. This license continues even if you stop using our Services. Make sure you have the necessary rights to grant us this license for any content that you submit to our Services.",
+        "text3": "Some parts of CRAI are billed on a subscription basis. You will be billed in advance on a recurring and periodic basis depending on the subscription plan you select. At the end of each period, your subscription will automatically renew under the exact same conditions unless you cancel it or CRAI cancels it. All fees are exclusive of taxes, levies or duties imposed by taxing authorities and you are responsible for payment of all such taxes, levies or duties.",
+        "text4": "CRAI is provided on an 'as-is' basis without warranties of any kind, either express or implied. CRAI does not warrant that the platform will be uninterrupted, error-free or free from viruses or other harmful components. In no event shall CRAI be liable for any indirect, incidental, special, consequential or punitive damages arising out of or related to your use of the platform, even if CRAI has been advised of the possibility of such damages.",
+        "text5": "CRAI reserves the right to terminate or suspend your account and access to the platform at any time, for any reason, without notice or liability. Upon termination, your right to use the platform will immediately cease. All provisions of these Terms that by their nature should survive termination shall survive.",
+        "text6": "If you have any questions about these Terms, please reach out to our support team at support@cr-ai.cloud. We are committed to addressing your concerns."
+    },
+    "policy": {
+        "text0": "Welcome to CRAI. We respect your privacy and are committed to protecting your personal information. This Privacy Policy explains what information we collect, how we use it and the choices you have when using our platform.",
+        "text1": "We may collect the following information when you use CRAI:",
+        "text2": "Account information (name, email address, username, password).",
+        "text3": "Profile information (profile photo, bio, social links, and other information you choose to share).",
+        "text4": "Payment and billing information (processed securely through our payment providers).",
+        "text5": "Content you publish on the platform.",
+        "text6": "Messages sent to our support team.",
+        "text7": "Device information, browser type, IP address, and usage analytics.",
+        "text8": "We use your information to:",
+        "text9": "Create and manage your account.",
+        "text10": "Process subscriptions and payments.",
+        "text11": "Deliver platform features and services.",
+        "text12": "Provide customer support.",
+        "text13": "Improve platform performance and user experience.",
+        "text14": "Send important service updates and security notifications.",
+        "text15": "Send marketing communications where permitted or with your consent.",
+        "text16": "We do not sell your personal information. We may share information with:",
+        "text17": "Payment service providers.",
+        "text18": "Cloud hosting and infrastructure providers.",
+        "text19": "Analytics and security providers.",
+        "text20": "Government authorities when required by applicable law.",
+        "text21": "CRAI uses cookies and similar technologies to:",
+        "text22": "Keep you signed in.",
+        "text23": "Improve website performance.",
+        "text24": "Remember your preferences.",
+        "text25": "Understand how the platform is used.",
+        "text26": "You can manage cookie preferences through your browser settings.",
+        "text27": "We use appropriate technical and organizational measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction.",
+        "text28": "While no online service can guarantee absolute security, we continuously work to safeguard your information.",
+        "text29": "We keep your information only for as long as necessary to provide our services, comply with legal obligations, resolve disputes, and enforce our agreements.",
+        "text30": "When data is no longer required, it is securely deleted or anonymized where appropriate.",
+        "text31": "Depending on applicable laws, you may have the right to:",
+        "text32": "Access your personal information.",
+        "text33": "Correct inaccurate information.",
+        "text34": "Request deletion of your account or personal data.",
+        "text35": "Withdraw consent where applicable.",
+        "text36": "Request a copy of your personal information.",
+        "text37": "To exercise these rights, please contact us using the information below.",
+        "text38": "If your information is transferred outside your country of residence, we will take appropriate measures to ensure it remains protected in accordance with applicable laws.",
+        "text39": "We may update this Privacy Policy from time to time. Any changes will be published on this page together with the updated effective date.",
+        "text40": "If you have questions about this Privacy Policy or your personal information, please contact us at: privacy@cr-ai.cloud."
+    }
+}
