@@ -45,7 +45,7 @@ services:
     build:
       context: ./frontend
     container_name: nextjs
-	env_file:
+    env_file:
       - ./frontend/.env  
     restart: unless-stopped
     depends_on:
@@ -101,29 +101,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-
-
-
-
-
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    'lesson.apps.LessonConfig',
-    'payment.apps.PaymentConfig',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
