@@ -28,6 +28,9 @@ export default function Register() {
     const [error, setError] = useState(false);
     const [apiErrors, setApiErrors] = useState([]);
     const onSubmit = async (values) => {
+        setSuccess(false);
+        setError(false);
+        setApiErrors([]);
         const response = await fetch("/api/register", {
             method: "POST",
             headers: {"Content-Type": "application/json"},

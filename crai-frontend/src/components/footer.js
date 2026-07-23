@@ -53,10 +53,10 @@ export default function Footer() {
                 <div className="flex flex-col gap-2 col-span-2 sm:col-span-1">
                     <p>{locale == "ar" ? "تابعونا على منصات التواصل الاجتماعي": "Follow us on social media"}</p>
                     <div className="flex gap-2">
-                        <Link href=""><Image src={facebook} alt="facebook" className="w-8 h-8"></Image></Link>
-                        <Link href=""><Image src={x} alt="x" className="w-8 h-8"></Image></Link>
-                        <Link href=""><Image src={instagram} alt="instagram" className="w-8 h-8"></Image></Link>
-                        <Link href=""><Image src={linkedin} alt="linkedin" className="w-8 h-8"></Image></Link>
+                        <Link target="_blank" href="https://www.facebook.com/share/1BrbvYSfYR/?mibextid=wwXIfr"><Image src={facebook} alt="facebook" className="w-8 h-8"></Image></Link>
+                        <Link target="_blank" href="https://x.com/Crai2026"><Image src={x} alt="x" className="w-8 h-8"></Image></Link>
+                        <Link target="_blank" href="https://www.instagram.com/cr_ai.sa?igsh=MXBma293eWhlNnI0Zg%3D%3D&utm_source=qr"><Image src={instagram} alt="instagram" className="w-8 h-8"></Image></Link>
+                        {/* <Link target="_blank" href=""><Image src={linkedin} alt="linkedin" className="w-8 h-8"></Image></Link> */}
                     </div>
                 </div>
             </div>
@@ -66,7 +66,3 @@ export default function Footer() {
         </footer>
     );
 }
-
-
-            
-            // <p>{locale == "ar" ? "جميع الحقوق محفوظة": "All rights reserved"}</p>

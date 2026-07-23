@@ -68,6 +68,9 @@ export default function Login() {
                         <input type="password" id="password" {...register("password")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" />
                         {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
                     </div>
+                    <div className="flex justify-end">
+                        <Link className="text-primary hover:text-primary" href="/forgotpassword">{locale == "ar" ? "نسيت كلمة المرور؟" : "Forgot password?"}</Link>
+                    </div>
                     <button type="submit" disabled={isSubmitting} className="cursor-pointer px-4 py-3 text-sm font-semibold text-white transition bg-primary hover:bg-primary/80 rounded-lg">{locale == "ar" ? "تسجيل الدخول" : "Login"}</button>
                 </form>
             </div>

@@ -26,10 +26,12 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@react-email/ui": "^6.9.0",
     "@tailwindcss/postcss": "^4",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "react-email": "^6.9.0",
     "tailwindcss": "^4"
   },
   "ignoreScripts": [
