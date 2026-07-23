@@ -7,6 +7,7 @@ export async function POST(request) {
         },
         body: JSON.stringify(data),
     });
-    const resData = await response.json();
+    const text = await response.text();
+    const resData = text ? JSON.parse(text) : null;
     return Response.json({ data: resData, status: response.status });
 }
