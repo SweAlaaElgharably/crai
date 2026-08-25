@@ -34,10 +34,9 @@ export default function Login() {
         if (data.status < 300 && data.status >= 200) {
             setSuccess(true);
             setError(false);
-            const userRes = await fetch("/api/me");
-            const userData = await userRes.json();
-            if (userData.status >= 200 && userData.status <= 299) {
-                setUser(userData.data);
+            const userRes = await fetch("/api/me", { credentials: "include" });
+            if (userRes.ok) {
+                setUser(await userRes.json());
             }
             router.push("/dashboard");
             router.refresh();
