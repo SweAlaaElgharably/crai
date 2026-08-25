@@ -26,21 +26,21 @@ export default function Contact() {
                     </div>
                 </div>
                 <div className='flex flex-col gap-4'>
-                    <h2 className="text-3xl font-bold text-[#1a0b40] lg:text-4xl">{locale == "ar" ? "بريد إلكتروني للتواصل المباشر" : "Direct contact emails"}</h2>
+                    <h2 className="text-3xl font-bold text-[#1a0b40] lg:text-4xl">{locale == "ar" ? "بريد إلكتروني للتواصل المباشر" : "Direct Contact Emails"}</h2>
                     <div className="flex gap-2 rounded-xl bg-white px-4 py-3 shadow-sm items-center justify-between">
-                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "للإستفسارات العامة" : "For general questions"}</span>
+                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "للإستفسارات العامة" : "For General Questions"}</span>
                         <a href="mailto:support@cr-ai.cloud" className="text-sm font-semibold text-[#0ABAB5] transition hover:text-[#088984] hover:underline">support@cr-ai.cloud</a>
                     </div>
                     <div className="flex gap-2 rounded-xl bg-white px-4 py-3 shadow-sm items-center justify-between">
-                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "للمسائل المتعلقة بالخصوصية" : "For privacy matters"}</span>
+                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "للمسائل المتعلقة بالخصوصية" : "For Privacy Matters"}</span>
                         <a href="mailto:privacy@cr-ai.cloud" className="text-sm font-semibold text-[#0ABAB5] transition hover:text-[#088984] hover:underline">privacy@cr-ai.cloud</a>
                     </div>
                     <div className="flex gap-2 rounded-xl bg-white px-4 py-3 shadow-sm items-center justify-between">
-                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "لشراكات الأعمال" : "For business partnerships"}</span>
+                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "لشراكات الأعمال" : "For Business Partnerships"}</span>
                         <a href="mailto:partners@cr-ai.cloud" className="text-sm font-semibold text-[#0ABAB5] transition hover:text-[#088984] hover:underline">partners@cr-ai.cloud</a>
                     </div>
                     <div className="flex gap-2 rounded-xl bg-white px-4 py-3 shadow-sm items-center justify-between">
-                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "للإستفسارات الإعلامية" : "For media inquiries"}</span>
+                        <span className="text-sm font-medium text-[#1a0b40]">{locale == "ar" ? "للإستفسارات الإعلامية" : "For Media Inquiries"}</span>
                         <a href="mailto:media@cr-ai.cloud" className="text-sm font-semibold text-[#0ABAB5] transition hover:text-[#088984] hover:underline">media@cr-ai.cloud</a>
                     </div>
                 </div>

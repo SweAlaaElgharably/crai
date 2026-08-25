@@ -1,20 +1,13 @@
 "use client";
-import HeroSection from "@/components/home/heroSection";
+import HeroSection from "@/components/heroSection";
 import Image from "next/image";
 import earth from "@/assets/images/earth.png";
 import dollar from "@/assets/images/dollar.png";
 import shield from "@/assets/images/shield.png";
 import teamwork from "@/assets/images/teamwork.png";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
-import logo from "@/assets/images/logo.png";
-import alaa from "@/assets/images/alaa-avatar.jpg";
 import become from "@/assets/images/become.jpg";
 import discover from "@/assets/images/discover.jpg";
 import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
@@ -22,34 +15,12 @@ import a from "@/assets/images/a.png";
 import b from "@/assets/images/b.png";
 
 export default function Home() {
-    const swiperRef1 = useRef(null);
-    const swiperRef2 = useRef(null);
     const locale = useLocale();
     const t = useTranslations("home");
-    const [categories, setCategories] = useState();
-    const [contents, setContents] = useState();
     const [activeTestimonials, setActiveTestimonials] = useState("a")
     const changeTestimonials = (type) => {
         setActiveTestimonials(type);
     }
-    useEffect(() => {
-        const getCategories = async () => {
-            const response = await fetch(`/api/categories`, {method: "GET"});
-            if (response.ok) {
-                const data = await response.json();
-                setCategories(data.data);
-            }
-        }
-        getCategories();
-        const getContents = async () => {
-            const response = await fetch(`/api/content/contentpreview?show_in_home=true`, {method: "GET"});
-            if (response.ok) {
-                const data = await response.json();
-                setContents(data.data);
-            }
-        }
-        getContents();
-    }, []);
     return (
         <>
             <HeroSection />
@@ -87,72 +58,6 @@ export default function Home() {
                     <p className="text-sm font-medium text-center">{locale == "ar" ? "مجتمع مبني على الثقة والإبداع." : "A community built on trust and creativity."}</p>
                 </div>
             </div>
-            {categories?.length > 0 ? <div id="popular-categories" className="w-full bg-primary">
-                <div className="max-w-350 w-full px-4 py-16 mx-auto flex flex-col items-center justify-center gap-4">
-                    <h1 className="text-4xl sm:text-5xl text-white font-medium">{locale == "ar" ? "أفضل الأقسام" : "Top Categories"}</h1>
-                    <p className="text-white/85 text-center">{locale == "ar" ? "تصفح أقسامنا للعثور على المحتوى الذي تبحث عنه" : "Explore a variety of categories to find the perfect creator content for you."}</p>
-                    <div className="w-full overflow-hidden">
-                        <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef1.current = swiper)}>
-                            {categories.map((category) => (
-                                <SwiperSlide className="!min-w-50 !max-w-60">
-                                    <Link href={`/category/${category.slug}`} className="h-60 border border-white/20 bg-white/10 flex flex-col justify-center items-center gap-6 p-10 text-white transition duration-300 ease-out hover:bg-white hover:text-primary">
-                                        <div className="w-16 h-16">
-                                            <img src={category.image || earth.src} alt={category.slug} width={64} height={64}></img>
-                                        </div>
-                                    <p className="font-semibold text-lg">{locale == "en" ? category.english_title : category.arabic_title}</p>
-                                </Link>
-                            </SwiperSlide>))}
-                        </Swiper>
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                        <button onClick={() => swiperRef1.current.slidePrev()} className="cursor-pointer w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center transition duration-300 hover:bg-white hover:text-primary">
-                            {locale == "ar" ? <FaArrowRight /> : <FaArrowLeft />}
-                        </button>
-                        <button onClick={() => swiperRef1.current.slideNext()} className="cursor-pointer w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center transition duration-300 hover:bg-white hover:text-primary">
-                            {locale == "ar" ? <FaArrowLeft /> : <FaArrowRight />}
-                        </button>
-                    </  div>
-                </div>
-            </div> : <></>}
-            {contents?.length > 0 ? <div id="popular-contents" className="max-w-350 w-full px-4 py-16 mx-auto flex flex-col items-center justify-center gap-4">
-                <h1 className="text-2xl sm:text-5xl text-primary font-medium">{locale == "en" ? "Our Most Popular Content" : "المحتوى الأكثر شعبية"}</h1>
-                <div className="w-full overflow-hidden">
-                    <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef2.current = swiper)}>
-                        {contents.map((content) => (
-                            <SwiperSlide className="!w-70 !my-4">
-                                <Link href={`/content/${content.slug}`} className="flex flex-col overflow-hidden rounded-xl border border-[#e6e7f2] bg-white justify-start items-start transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_5px_5px_rgba(32,36,69,0.05)]">
-                                    <div className="relative w-full aspect-1/1 overflow-hidden bg-primary">
-                                        <img src={content.image || logo.src} alt={content.slug} className="w-full h-full"></img>
-                                    </div>
-                                    <div className="flex flex-col items-start justify-start px-4 py-2">
-                                        <p className="font-semibold text-lg">{locale == "en" ? content.english_title : content.arabic_title}</p>
-                                    </div>
-                                    <div className="flex items-center justify-between px-4 py-2 w-full">
-                                        <div className="flex items-center gap-2">
-                                            <div className="relative w-[30px] h-[30px] rounded-full overflow-hidden">
-                                                <img src={content?.owner_avatar || alaa.src} alt="Create By" className="w-full h-full"></img>
-                                            </div>
-                                            <p>{content?.owner_first_name || "Admin"} {content?.owner_last_name || "Alaa"}</p>
-                                        </div>
-                                        <div className="flex flex-col items-end">
-                                            <p className="text-sm line-through">{content?.fake_price}</p>
-                                            <p className="font-semibold text-lg">{content?.real_price}</p>
-                                        </div>
-                                    </div>
-                            </Link>
-                        </SwiperSlide>))}
-                    </Swiper>
-
-                </div>
-                <div className="flex items-center justify-center gap-2">
-                    <button onClick={() => swiperRef2.current.slidePrev()} className="cursor-pointer w-8 h-8 rounded-full bg-primary/80 text-white flex items-center justify-center transition duration-300 hover:bg-primary">
-                        {locale == "ar" ? <FaArrowRight /> : <FaArrowLeft />}
-                    </button>
-                    <button onClick={() => swiperRef2.current.slideNext()} className="cursor-pointer w-8 h-8 rounded-full bg-primary/80 text-white flex items-center justify-center transition duration-300 hover:bg-primary">
-                        {locale == "ar" ? <FaArrowLeft /> : <FaArrowRight />}
-                    </button>
-                </div>
-            </div> : <></>}
             <div className="bg-gray-100">
                 <div className="max-w-350 w-full px-4 py-16 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-4 justify-center">

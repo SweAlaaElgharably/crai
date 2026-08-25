@@ -1,55 +1,60 @@
 import { NextResponse } from "next/server";
 
 const authPages = ["/login", "/register", "/resetpassword", "/forgotpassword"];
-const protectedPages = [""];
 
-export default function proxy(request) {
+// Any authenticated user.
+const allUsersPages = ["/dashboard", "/explore", "/profile"];
+
+// Client-only pages (/analytics/influencer belongs to influencers).
+const clientPages = ["/feed", "/analytics"];
+
+// Influencer-only pages (includes contents CRUD).
+const influencerPages = ["/subscribers", "/contents", "/analytics/influencer"];
+
+async function getUser(accessToken) {
+    try {
+        const response = await fetch(`${process.env.BACKEND_URL}/api/auth/users/me/`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            cache: "no-store",
+        });
+        if (!response.ok) { return null; }
+        return await response.json();
+    } catch {
+        return null;
+    }
+}
+
+function matches(pathname, base) {
+    return pathname === base || pathname.startsWith(`${base}/`);
+}
+
+export default async function proxy(request) {
     const { pathname } = request.nextUrl;
     const isAuthPage = authPages.includes(pathname);
-    const isProtectedPage = protectedPages.includes(pathname);
-    let accessToken = request.cookies.get("access")?.value;
-    if (isAuthPage && accessToken) { return NextResponse.redirect(new URL("/", request.url)); }
+    const isInfluencerPage = influencerPages.some((page) => matches(pathname, page));
+    const isClientPage = !isInfluencerPage && clientPages.some((page) => matches(pathname, page));
+    const needsAuth = isInfluencerPage || isClientPage || allUsersPages.some((page) => matches(pathname, page));
+
+    if (!isAuthPage && !needsAuth) { return NextResponse.next(); }
+
+    const accessToken = request.cookies.get("access")?.value;
+    const user = accessToken ? await getUser(accessToken) : null;
+    const userType = user?.is_staff ? "staff" : user?.user_type || null;
+
+    if (isAuthPage && userType) { return NextResponse.redirect(new URL("/", request.url)); }
+
+    if (needsAuth) {
+        if (!userType) { return NextResponse.redirect(new URL("/login", request.url)); }
+        if (userType === "staff") { return NextResponse.next(); }
+        if (isInfluencerPage && userType !== "influencer") {
+            return NextResponse.redirect(new URL("/dashboard", request.url));
+        }
+        if (isClientPage && userType !== "client") {
+            return NextResponse.redirect(new URL("/analytics/influencer", request.url));
+        }
+    }
+
     return NextResponse.next();
 }
 
-
-
-// const API_URL = "https://api.arabfinance.com";
-// const isProd = process.env.NODE_ENV === "production";
-// const paidPages = ["/marketview"];
-// function getJwtPayload(token) {
-//     try {
-//         const base64 = token.split(".")[1];
-//         const decoded = atob(base64.replace(/-/g, "+").replace(/_/g, "/"));
-//         return JSON.parse(decoded);
-//     } catch {
-//         return null;
-//     }
-// }
-
-//     let refreshToken = request.cookies.get("refreshToken")?.value;
-//     const isPaidPage = paidPages.includes(pathname);
-//     if (!accessToken && refreshToken) {
-//         const refreshResponse = await fetch(`${API_URL}/api/Auth/refresh`, {method: "POST", headers: 
-//             { "Content-Type": "application/json" }, body: JSON.stringify({ refreshToken })});
-//         if (!refreshResponse.ok) {
-//             const response = NextResponse.redirect(new URL("/login", request.url));
-//             response.cookies.delete("refreshToken");
-//             response.cookies.delete("accessToken");
-//             return response;
-//         }
-//         const { accessToken: newAccessToken } = await refreshResponse.json();
-//         const response = NextResponse.next();
-//         response.cookies.set("accessToken", newAccessToken, {httpOnly: true, secure: isProd, sameSite: "lax", path: "/", maxAge: 60 * 15,});
-//         return response;
-//     }
-//     if ((isProtectedPage || isPaidPage) && !accessToken) {
-//         return NextResponse.redirect(new URL("/login", request.url));
-//     }
-//     if (isPaidPage && accessToken) {
-//         const payload = getJwtPayload(accessToken);
-//         const isSubscriber = payload?.isSubscriber === "true";
-//         if (!isSubscriber) {
-//             return NextResponse.redirect(new URL("/plans", request.url));
-//         }
-//     }
+export const config = {matcher: ["/:path*"]};

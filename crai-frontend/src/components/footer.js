@@ -23,8 +23,8 @@ export default function Footer() {
                     <p className="font-bold">{locale == "ar" ? "الصفحة الرئيسية": "Home"}</p>
                     <div className="flex flex-col gap-1">
                         <Link href="#hero-section">{locale == "ar" ? "قسم البطل": "Hero Section"}</Link>
-                        <Link href="#popular-categories">{locale == "ar" ? "المبدعين المشهورين": "Popular Categories"}</Link>
-                        <Link href="#popular-content">{locale == "ar" ? "المحتوى الرائج": "Popular Content"}</Link>
+                        {/* <Link href="#popular-categories">{locale == "ar" ? "المبدعين المشهورين": "Popular Categories"}</Link> */}
+                        {/* <Link href="#popular-content">{locale == "ar" ? "المحتوى الرائج": "Popular Content"}</Link> */}
                         <Link href="#testimonials">{locale == "ar" ? "آراء العملاء": "Testimonials"}</Link>
                     </div>
                 </div>

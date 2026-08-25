@@ -39,7 +39,7 @@ export default function Login() {
             if (userData.status >= 200 && userData.status <= 299) {
                 setUser(userData.data);
             }
-            router.push("/");
+            router.push("/dashboard");
             router.refresh();
         }
         else {setError(true); setSuccess(false); setApiErrors(["Invalid Username or Password."])}

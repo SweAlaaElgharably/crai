@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Category, SubCategory
-from .serializers import CategorySerializer, SubCategorySerializer
+from .models import Category
+from .serializers import CategorySerializer
 from rest_framework.permissions import IsAdminUser, AllowAny
 
 class CategoryViewSet(ModelViewSet):
@@ -12,14 +12,3 @@ class CategoryViewSet(ModelViewSet):
         if self.action == 'list' or self.action == 'retrieve':
             return [AllowAny()]
         return [IsAdminUser()]
-
-class SubCategoryViewSet(ModelViewSet):
-    queryset = SubCategory.objects.all()
-    serializer_class = SubCategorySerializer
-    permission_classes = [IsAdminUser]
-    lookup_field = "slug"
-    def get_permissions(self):
-        if self.action == 'list' or self.action == 'retrieve':
-            return [AllowAny()]
-        return [IsAdminUser()]
-    

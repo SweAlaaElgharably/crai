@@ -3,9 +3,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
-const nextConfig = { 
+const nextConfig = {
     reactCompiler: true,
     output: "standalone",
+    experimental: {
+        proxyClientMaxBodySize: '256mb',
+    },
     images: {
         remotePatterns: [
             {
