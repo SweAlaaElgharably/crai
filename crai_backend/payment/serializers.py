@@ -9,6 +9,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 from rest_framework import serializers
 from .models import Enrollment
+from crai_backend.utils import absolute_url
 
 
 class ClientContentSerializer(serializers.ModelSerializer):
@@ -42,9 +43,7 @@ class ClientContentSerializer(serializers.ModelSerializer):
         if not obj.content.cover_image:
             return None
         request = self.context.get("request")
-        return request.build_absolute_uri(
-            obj.content.cover_image.url
-        ) if request else obj.content.cover_image.url
+        return absolute_url(request, obj.content.cover_image.url) if request else obj.content.cover_image.url
 
     def get_amount_paid(self, obj):
         order = (obj.user.orders.filter(content=obj.content, status="paid").order_by("-created_at").first())

@@ -6,6 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaCamera } from "react-icons/fa";
 import SetPassword from "@/components/setpassword";
+import { COUNTRIES } from "@/lib/countries";
 
 const createSchema = (locale) => 
     z.object({
@@ -200,7 +201,11 @@ export default function Profile() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="country_code">{locale === "ar" ? "كود الدولة" : "Country Code"}</label>
-                        <input type="text" id="country_code" {...register("country_code")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" placeholder="+20"/>
+                        <select id="country_code" {...register("country_code")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none">
+                            {COUNTRIES.map((c) => (
+                                <option key={c.code} value={c.dial}>{c.flag} {c.name} ({c.dial})</option>
+                            ))}
+                        </select>
                         {errors.country_code && (
                             <span className="text-red-500 text-sm">{errors.country_code.message}</span>
                         )}
