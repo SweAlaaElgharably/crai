@@ -31,20 +31,26 @@ function matches(pathname, base) {
 export default async function proxy(request) {
     const { pathname } = request.nextUrl;
     const isAuthPage = authPages.includes(pathname);
+    const isHomePage = pathname === "/";
     const isInfluencerPage = influencerPages.some((page) => matches(pathname, page));
     const isClientPage = !isInfluencerPage && clientPages.some((page) => matches(pathname, page));
     const needsAuth = isInfluencerPage || isClientPage || allUsersPages.some((page) => matches(pathname, page));
 
-    if (!isAuthPage && !needsAuth) { return NextResponse.next(); }
+    if (!isAuthPage && !needsAuth && !isHomePage) { return NextResponse.next(); }
 
     const accessToken = request.cookies.get("access")?.value;
     const user = accessToken ? await getUser(accessToken) : null;
     const userType = user?.is_staff ? "staff" : user?.user_type || null;
 
-    if (isAuthPage && userType) { return NextResponse.redirect(new URL("/", request.url)); }
+    if (isAuthPage && userType) { return NextResponse.redirect(new URL("/dashboard", request.url)); }
+    if (isHomePage && userType) { return NextResponse.redirect(new URL("/dashboard", request.url)); }
 
     if (needsAuth) {
-        if (!userType) { return NextResponse.redirect(new URL("/login", request.url)); }
+        if (!userType) {
+            const loginUrl = new URL("/login", request.url);
+            loginUrl.searchParams.set("redirect", pathname);
+            return NextResponse.redirect(loginUrl);
+        }
         if (userType === "staff") { return NextResponse.next(); }
         if (isInfluencerPage && userType !== "influencer") {
             return NextResponse.redirect(new URL("/dashboard", request.url));

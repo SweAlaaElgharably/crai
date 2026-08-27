@@ -5,6 +5,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
+import { COUNTRIES } from "@/lib/countries";
 
 const createRegisterSchema = (locale) =>
     z
@@ -100,7 +101,7 @@ export default function Register() {
             password: "",
             re_password: "",
             user_type: "client",
-            country_code: "",
+            country_code: "+966",
             phone: "",
             interests: [],
         },
@@ -420,12 +421,20 @@ export default function Register() {
                                         ? "رمز الدولة"
                                         : "Country Code"}
                                 </label>
-                                <input
-                                    type="text"
+                                <select
                                     id="country_code"
                                     {...register("country_code")}
-                                    className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
-                                />
+                                    className="border border-gray-200 rounded-lg px-4 py-2 outline-none bg-white cursor-pointer appearance-none"
+                                >
+                                    <option value="">
+                                        {locale === "ar" ? "اختر رمز الدولة" : "Select country code"}
+                                    </option>
+                                    {COUNTRIES.map((c) => (
+                                        <option key={c.code} value={c.code}>
+                                            {c.flag} {c.code}
+                                        </option>
+                                    ))}
+                                </select>
                                 {errors.country_code && (<span className="text-red-500 text-sm">{errors.country_code.message}</span>)}
                             </div>
                             <div className="flex flex-col gap-1">

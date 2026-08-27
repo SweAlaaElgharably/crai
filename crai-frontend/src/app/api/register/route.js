@@ -7,8 +7,6 @@ export async function POST(request) {
         },
         body: JSON.stringify(data),
     });
-    console.log("response", response)
     const resData = await response.json();
-    console.log("resData", resData)
-    return Response.json({ data: resData, status: response.status });
+    return Response.json({ data: resData }, { status: response.status });
 }

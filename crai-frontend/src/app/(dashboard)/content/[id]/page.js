@@ -139,15 +139,11 @@ export default function ContentView() {
     };
 
     const shareContent = async () => {
-        const url = `${window.location.origin}/${locale}/content/${id}`;
+        const url = `${window.location.origin}/content/${id}`;
         try {
-            if (navigator.share) {
-                await navigator.share({ title: content.title, url });
-            } else {
-                await navigator.clipboard.writeText(url);
-                setShareLabel(ar ? "تم نسخ الرابط" : "Link copied");
-                setTimeout(() => setShareLabel(""), 2000);
-            }
+            await navigator.clipboard.writeText(url);
+            setShareLabel(ar ? "تم نسخ الرابط" : "Link copied!");
+            setTimeout(() => setShareLabel(""), 2500);
             const response = await fetch(`/api/contents/${id}/share`, { method: "POST", credentials: "include" });
             const result = await response.json().catch(() => ({}));
             if (response.ok && typeof result.share_count === "number") {
@@ -272,7 +268,6 @@ export default function ContentView() {
                 >
                     <FaShareNodes />
                     {shareLabel || (ar ? "مشاركة" : "Share")}
-                    {!shareLabel && shareCount > 0 && <span className="text-gray-400">({shareCount})</span>}
                 </button>
 
                 {!user && (

@@ -6,10 +6,11 @@ class User(AbstractUser):
     class UserType(models.TextChoices):
         CLIENT = "client", "Client"
         INFLUENCER = "influencer", "Influencer"
+    email = models.EmailField("email address", unique=True)
     user_type = models.CharField(max_length=20, choices=UserType.choices, default=UserType.CLIENT, db_index=True)
     headline = models.CharField(max_length=255, blank=True, null=True)
     country_code = models.CharField(max_length=5)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, unique=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     interests = models.ManyToManyField(Category, related_name="users", blank=True)

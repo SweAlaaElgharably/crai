@@ -1,11 +1,11 @@
 'use client'
+import { Suspense, useState } from "react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";
 
 const createLoginSchema = (locale) =>
@@ -14,7 +14,7 @@ const createLoginSchema = (locale) =>
         password: z.string().min(8, locale === "ar" ? "كلمة المرور يجب ان تكون 8 أحرف على الأقل" : "Password must be at least 8 characters"),
     });
 
-export default function Login() {
+function LoginForm() {
     const locale = useLocale();
     const loginSchema = createLoginSchema(locale);
     const {register, handleSubmit, setValue, watch, formState: { errors, isSubmitting }} = useForm({resolver: zodResolver(loginSchema), defaultValues: {username: "", password: ""}});
@@ -22,6 +22,8 @@ export default function Login() {
     const [error, setError] = useState(false);
     const [apiErrors, setApiErrors] = useState([]);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirect") || "/dashboard";
     const setUser = useUserStore((state) => state.setUser);
     const onSubmit = async (values) => {
         const response = await fetch("/api/login", {
@@ -38,7 +40,7 @@ export default function Login() {
             if (userRes.ok) {
                 setUser(await userRes.json());
             }
-            router.push("/dashboard");
+            router.push(redirectTo);
             router.refresh();
         }
         else {setError(true); setSuccess(false); setApiErrors(["Invalid Username or Password."])}
@@ -74,5 +76,13 @@ export default function Login() {
                 </form>
             </div>
         </div>        
+    );
+}
+
+export default function Login() {
+    return (
+        <Suspense fallback={<div className="flex justify-center py-32">...</div>}>
+            <LoginForm />
+        </Suspense>
     );
 }

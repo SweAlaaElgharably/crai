@@ -154,8 +154,8 @@ export default function ClientDashboard() {
                     icon={<FaBookOpen size={18} />}
                     title={
                         locale === "ar"
-                            ? "المحتوى الخاص بي"
-                            : "My Content"
+                            ? "اشتراكاتي"
+                            : "My Subscriptions"
                     }
                     value={summary.content_count || 0}
                     description={
@@ -172,8 +172,8 @@ export default function ClientDashboard() {
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-semibold">
                         {locale === "ar"
-                            ? "المحتوى الخاص بي"
-                            : "My Content"}
+                            ? "اشتراكاتي"
+                            : "My Subscriptions"}
                     </h2>
                 </div>
 

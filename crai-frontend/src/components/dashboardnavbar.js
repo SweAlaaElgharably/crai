@@ -9,6 +9,7 @@ import { IoMdAnalytics } from "react-icons/io";
 import { IoFileTrayFull } from "react-icons/io5";
 import { usePathname, useRouter } from "next/navigation";
 import { BiLogOutCircle } from "react-icons/bi";
+import { useLocale } from "next-intl";
 import { useUserStore } from "@/stores/userStore";
 
 export default function DashboardNavbar() {
@@ -16,6 +17,12 @@ export default function DashboardNavbar() {
     const user = useUserStore((state) => state.user);
     const logoutStore = useUserStore((state) => state.logout);
     const router = useRouter();
+    const locale = useLocale();
+    const changeLang = async () => {
+        const newLocale = locale === "ar" ? "en" : "ar";
+        await fetch("/api/lang", { method: "POST", body: JSON.stringify({ locale: newLocale }) });
+        router.refresh();
+    };
     const logout = async () => {
         await fetch("/api/logout", {method: "POST"});
         logoutStore();
@@ -57,6 +64,9 @@ export default function DashboardNavbar() {
                 <Link href="/profile" className="flex items-center justify-center">
                     <img src={user?.avatar || "/alaa-avatar.jpg"} className="w-8 h-8 rounded-full" alt="avatar" />
                 </Link>
+                <button onClick={() => changeLang()} className="cursor-pointer h-10 w-10 rounded-xl flex items-center justify-center transition-all duration-300 text-stone-600 hover:bg-stone-100 text-xs font-bold" title={locale === "ar" ? "English" : "العربية"}>
+                    {locale === "ar" ? "EN" : "AR"}
+                </button>
                 <button onClick={() => {logout();}} className={`cursor-pointer h-10 w-10 text-2xl rounded-xl flex items-center justify-center transition-all duration-300 ${pathname === "contents" ? "text-black bg-stone-200" : "text-stone-600 hover:bg-stone-100"}`}>
                     <BiLogOutCircle />
                 </button>
