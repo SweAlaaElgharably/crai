@@ -1,7 +1,3 @@
-import os
-from django.conf import settings
-
-
 def force_https(url):
     if url and url.startswith("http://"):
         return "https://" + url[len("http://"):]

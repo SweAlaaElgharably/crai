@@ -20,6 +20,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from user.models import User
+from crai_backend.utils import absolute_url
 
 # Create your views here.
 
@@ -104,7 +105,7 @@ def upload_media(request):
 
     filename = f"{uuid.uuid4().hex}.{extension}"
     path = default_storage.save(f"uploads/{kind}s/{filename}", file)
-    url = request.build_absolute_uri(settings.MEDIA_URL + path)
+    url = absolute_url(request, settings.MEDIA_URL + path)
     return Response({"url": url, "path": path, "name": file.name, "size": file.size, "type": kind}, status=201)
 
 @api_view(["POST"])

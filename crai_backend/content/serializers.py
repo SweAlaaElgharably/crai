@@ -2,6 +2,17 @@ from rest_framework import serializers
 from django.utils import timezone
 from .models import Content, Comment
 from category.models import Category
+from crai_backend.utils import absolute_url
+
+
+class SecureImageField(serializers.ImageField):
+    def to_representation(self, value):
+        url = super().to_representation(value)
+        if url and not url.startswith("http"):
+            request = self.context.get("request")
+            if request:
+                url = absolute_url(request, url)
+        return url
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -13,12 +24,13 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at"]
 
     def get_user_details(self, obj):
+        request = self.context.get("request")
         return {
             "id": obj.user.id,
             "username": obj.user.username,
             "first_name": obj.user.first_name,
             "last_name": obj.user.last_name,
-            "avatar": obj.user.avatar.url if obj.user.avatar else None,
+            "avatar": absolute_url(request, obj.user.avatar.url) if request and obj.user.avatar else (obj.user.avatar.url if obj.user.avatar else None),
         }
 
     def validate_body(self, value):
@@ -38,6 +50,7 @@ class ContentSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
+    cover_image = SecureImageField()
     class Meta:
         model = Content
         fields = ["id", "title", "cover_image", "body", "price", "is_free", "owner", "owner_details", "category", "category_name", "created_at", "updated_at", "access_duration_days", "status", "scheduled_at", "published_at", "likes_count", "comments_count", "share_count", "is_liked"]
@@ -60,11 +73,12 @@ class ContentSerializer(serializers.ModelSerializer):
             return obj.category.arabic_title
         return obj.category.english_title
     def get_owner_details(self, obj):
+        request = self.context.get("request")
         return {
             "username": obj.owner.username,
             "first_name": obj.owner.first_name,
             "last_name": obj.owner.last_name,
-            "avatar": obj.owner.avatar.url if obj.owner.avatar else None,
+            "avatar": absolute_url(request, obj.owner.avatar.url) if request and obj.owner.avatar else (obj.owner.avatar.url if obj.owner.avatar else None),
         }
     def validate_price(self, value):
         if value < 0: raise serializers.ValidationError("Price cannot be negative.")
@@ -96,14 +110,16 @@ class ContentSerializer(serializers.ModelSerializer):
 class FollowingContentSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
     is_free = serializers.ReadOnlyField()
+    cover_image = SecureImageField()
     class Meta:
         model = Content
         fields = ["id", "cover_image", "title", "created_at", "owner", "is_free",]
     def get_owner(self, obj):
+        request = self.context.get("request")
         return {
             "id": obj.owner.id,
             "username": obj.owner.username,
             "first_name": obj.owner.first_name,
             "last_name": obj.owner.last_name,
-            "avatar": obj.owner.avatar.url if obj.owner.avatar else None,
+            "avatar": absolute_url(request, obj.owner.avatar.url) if request and obj.owner.avatar else (obj.owner.avatar.url if obj.owner.avatar else None),
         }
