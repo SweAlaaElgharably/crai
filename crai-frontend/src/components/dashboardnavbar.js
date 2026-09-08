@@ -7,6 +7,7 @@ import { MdOutlineLanguage } from "react-icons/md";
 import { BsPeopleFill } from "react-icons/bs";
 import { IoMdAnalytics } from "react-icons/io";
 import { IoFileTrayFull } from "react-icons/io5";
+import { LuCircleDollarSign } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useLocale } from "next-intl";
@@ -57,6 +58,11 @@ export default function DashboardNavbar() {
                 {user?.user_type === "influencer" && (
                     <Link href="/contents" className={`h-10 w-10 text-2xl rounded-xl flex items-center justify-center transition-all duration-300 ${pathname.startsWith("/contents") ? "text-black bg-stone-200" : "text-stone-600 hover:bg-stone-100"}`}>
                         <IoFileTrayFull />
+                    </Link>
+                )}
+                {user?.user_type === "influencer" && (
+                    <Link href="/payout" className={`h-10 w-10 text-2xl rounded-xl flex items-center justify-center transition-all duration-300 ${pathname.startsWith("/payout") ? "text-black bg-stone-200" : "text-stone-600 hover:bg-stone-100"}`}>
+                        <LuCircleDollarSign />
                     </Link>
                 )}
             </nav>

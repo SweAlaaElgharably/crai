@@ -27,7 +27,7 @@ export default function Dashboard() {
     return (
         <div className="flex flex-col gap-4 w-full max-w-7xl mx-auto px-4 py-8">
             {user?.user_type == "influencer" && <div className="flex items-center justify-center">
-                <Link href={`/creators/${user?.username}`} className="text-white font-medium bg-primary px-4 py-2 rounded-lg">{locale == "ar" ? "صفحتي" : "My Page"}</Link>            
+                <Link href={`/@/${user?.username}`} className="text-white font-medium bg-primary px-4 py-2 rounded-lg">{locale == "ar" ? "صفحتي" : "My Page"}</Link>            
             </div>}
             <h1 className="font-semibold text-2xl">{locale == "ar" ? "المؤثرين المميزين" : "Featured Influencers"}</h1>
             {data?.featured?.length > 0 ? 
@@ -36,7 +36,7 @@ export default function Dashboard() {
                     <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef1.current = swiper)}>
                         {data.featured.map((creator) => (
                             <SwiperSlide className="!w-[240px]">
-                                <Link href={`/creators/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
+                                <Link href={`/@/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
                                     <img src={creator.avatar || "/alaa-avatar.jpg"} alt={creator.username} className="w-full aspect-square rounded-lg"></img>
                                     <p className="font-semibold text-lg">{`${creator.first_name} ${creator.last_name}`}</p>
                                     <p className="text-gray-500 text-sm truncate w-full">{creator.headline}</p>                                    
@@ -62,7 +62,7 @@ export default function Dashboard() {
                     <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef1.current = swiper)}>
                         {data.trending.map((creator) => (
                             <SwiperSlide className="!w-[240px]">
-                                <Link href={`/creators/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
+                                <Link href={`/@/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
                                     <img src={creator.avatar || "/alaa-avatar.jpg"} alt={creator.username} className="w-full aspect-square rounded-lg"></img>
                                     <p className="font-semibold text-lg">{`${creator.first_name} ${creator.last_name}`}</p>
                                     <p className="text-gray-500 text-sm truncate w-full">{creator.headline}</p>                                    
@@ -88,7 +88,7 @@ export default function Dashboard() {
                     <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef1.current = swiper)}>
                         {data.top.map((creator) => (
                             <SwiperSlide className="!w-[240px]">
-                                <Link href={`/creators/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
+                                <Link href={`/@/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
                                     <img src={creator.avatar || "/alaa-avatar.jpg"} alt={creator.username} className="w-full aspect-square rounded-lg"></img>
                                     <p className="font-semibold text-lg">{`${creator.first_name} ${creator.last_name}`}</p>
                                     <p className="text-gray-500 text-sm truncate w-full">{creator.headline}</p>                                    
@@ -114,7 +114,7 @@ export default function Dashboard() {
                     <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef1.current = swiper)}>
                         {data.new.map((creator) => (
                             <SwiperSlide className="!w-[240px]">
-                                <Link href={`/creators/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
+                                <Link href={`/@/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
                                     <img src={creator.avatar || "/alaa-avatar.jpg"} alt={creator.username} className="w-full aspect-square rounded-lg"></img>
                                     <p className="font-semibold text-lg">{`${creator.first_name} ${creator.last_name}`}</p>
                                     <p className="text-gray-500 text-sm truncate w-full">{creator.headline}</p>                                    
@@ -140,7 +140,7 @@ export default function Dashboard() {
                     <Swiper spaceBetween={16} slidesPerView={"auto"} onSwiper={(swiper) => (swiperRef1.current = swiper)}>
                         {data.recommended.map((creator) => (
                             <SwiperSlide className="!w-[240px]">
-                                <Link href={`/creators/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
+                                <Link href={`/@/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
                                     <img src={creator.avatar || "/alaa-avatar.jpg"} alt={creator.username} className="w-full aspect-square rounded-lg"></img>
                                     <p className="font-semibold text-lg">{`${creator.first_name} ${creator.last_name}`}</p>
                                     <p className="text-gray-500 text-sm truncate w-full">{creator.headline}</p>                                    

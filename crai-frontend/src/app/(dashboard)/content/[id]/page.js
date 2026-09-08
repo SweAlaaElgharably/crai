@@ -201,7 +201,7 @@ export default function ContentView() {
                 <h1 className="text-3xl font-semibold">{content.title}</h1>
 
                 {content.owner_details && (
-                    <Link href={`/influencer/${content.owner_details.username}`} className="flex items-center gap-2 w-fit group">
+                    <Link href={`/@/${content.owner_details.username}`} className="flex items-center gap-2 w-fit group">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={content.owner_details.avatar || "/alaa-avatar.jpg"}

@@ -9,7 +9,7 @@ const allUsersPages = ["/dashboard", "/explore", "/profile"];
 const clientPages = ["/feed", "/analytics"];
 
 // Influencer-only pages (includes contents CRUD).
-const influencerPages = ["/subscribers", "/contents", "/analytics/influencer"];
+const influencerPages = ["/subscribers", "/contents", "/analytics/influencer", "/payout"];
 
 async function getUser(accessToken) {
     try {
@@ -30,6 +30,7 @@ function matches(pathname, base) {
 
 export default async function proxy(request) {
     const { pathname } = request.nextUrl;
+
     const isAuthPage = authPages.includes(pathname);
     const isHomePage = pathname === "/";
     const isInfluencerPage = influencerPages.some((page) => matches(pathname, page));

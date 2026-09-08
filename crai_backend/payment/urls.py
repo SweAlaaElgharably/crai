@@ -5,6 +5,7 @@ urlpatterns = [
     path("createcharge/", create_charge),
     path("updatecharge/", update_charge),
     path("webhook/", tap_webhook),
+    path("confirm/", confirm_pending_orders),
     path('order/', OrderListView.as_view()),
     path('order/<int:pk>', OrderRetrieveView.as_view()),
     path('mycontent/', MyContentAPIView.as_view()),

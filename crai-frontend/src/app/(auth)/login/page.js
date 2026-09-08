@@ -8,9 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";
 
-const createLoginSchema = (locale) =>
+    const createLoginSchema = (locale) =>
     z.object({
-        username: z.string().min(1, locale === "ar" ? "اسم المستخدم غير صحيح" : "Invalid Username"),
+        username: z.string().min(1, locale === "ar" ? "اسم المستخدم أو البريد الإلكتروني غير صحيح" : "Username or email is required"),
         password: z.string().min(8, locale === "ar" ? "كلمة المرور يجب ان تكون 8 أحرف على الأقل" : "Password must be at least 8 characters"),
     });
 
@@ -43,7 +43,7 @@ function LoginForm() {
             router.push(redirectTo);
             router.refresh();
         }
-        else {setError(true); setSuccess(false); setApiErrors(["Invalid Username or Password."])}
+        else {setError(true); setSuccess(false);                     setApiErrors([locale == "ar" ? "اسم المستخدم أو البريد الإلكتروني أو كلمة المرور غير صحيحة" : "Invalid username/email or password."])}
     }
     return(
         <div className="flex justify-center items-center px-4 py-16">
@@ -60,7 +60,7 @@ function LoginForm() {
                 ))}
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4">
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="username">{locale == "ar" ? "اسم المستخدم" : "Username"}</label>
+                        <label htmlFor="username">{locale == "ar" ? "اسم المستخدم أو البريد الإلكتروني" : "Username or Email"}</label>
                         <input type="text" id="username" {...register("username")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" />
                         {errors.username && <span className="text-red-500 text-sm">{errors.username.message}</span>}
                     </div>

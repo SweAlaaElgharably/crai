@@ -93,7 +93,7 @@ export default function Explore() {
             {creators?.length > 0 ? 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {creators.map((creator) => (
-                    <Link key={creator.id} href={`/creators/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
+                    <Link key={creator.id} href={`/@/${creator.username}`} className="flex flex-col justify-center items-start gap-1 p-2 transition duration-300 hover:bg-gray-50 rounded-lg">
                         <img src={creator.avatar || "/alaa-avatar.jpg"} alt={creator.username} className="w-full aspect-square rounded-lg"></img>
                         <p className="font-semibold text-lg">{`${creator.first_name} ${creator.last_name}`}</p>
                         <p className="text-gray-500 text-sm truncate w-full">{creator.headline}</p>

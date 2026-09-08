@@ -9,6 +9,14 @@ const nextConfig = {
     experimental: {
         proxyClientMaxBodySize: '256mb',
     },
+    async rewrites() {
+        return [
+            {
+                source: "/@/:username",
+                destination: "/:username",
+            },
+        ];
+    },
     images: {
         remotePatterns: [
             {

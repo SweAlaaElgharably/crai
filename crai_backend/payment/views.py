@@ -2,6 +2,7 @@ import requests
 import hashlib
 import hmac
 import os
+import logging
 from datetime import timedelta
 from django.db import transaction
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
@@ -12,12 +13,12 @@ from .models import *
 from .serializers import OrderSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from content.serializers import ContentSerializer
-
-
 from django.db.models import Sum
 from django.utils import timezone
 from rest_framework.views import APIView
 from .serializers import ClientContentSerializer
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -37,7 +38,6 @@ PAYMENT_SOURCES = {
 def create_charge(request):
     if not TAP_SECRET:
         return Response({"ok": False, "error": "Payment gateway is not configured."}, status=503)
-
     data = request.data
     method = data.get("method")
     source_id = PAYMENT_SOURCES.get(method)
@@ -92,9 +92,9 @@ def create_charge(request):
         "post": {
             "url": "https://api.cr-ai.cloud/api/webhook/",
         },
-        "redirect": {
-            "url": "https://www.cr-ai.cloud/successpayment",
-        },
+            "redirect": {
+                "url": "https://cr-ai.cloud/successpayment",
+            },
     }
     if phone:
         payload["source"]["phone"] = {"country_code": "966", "number": phone}
@@ -174,7 +174,9 @@ def update_charge(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def tap_webhook(request):
+    logger.info("Webhook received: %s", request.body[:500])
     if not _verify_tap_signature(request):
+        logger.warning("Webhook signature verification failed")
         return Response({"ok": False, "error": "Invalid signature."}, status=403)
 
     payload = request.data
@@ -182,6 +184,7 @@ def tap_webhook(request):
     charge_id = payload.get("id")
     metadata = payload.get("metadata") or {}
     order_id = metadata.get("order_id")
+    logger.info("Webhook payload: status=%s charge_id=%s order_id=%s", status, charge_id, order_id)
     if not order_id:
         return Response({"ok": False, "error": "No order_id"}, status=400)
     try:
@@ -196,6 +199,7 @@ def tap_webhook(request):
         try:
             order = Order.objects.select_for_update().get(id=order_id)
         except Order.DoesNotExist:
+            logger.warning("Webhook: Order %s not found", order_id)
             return Response({"ok": False, "error": "Order not found"}, status=400)
 
         if order.status != Order.Status.PENDING:
@@ -211,9 +215,11 @@ def tap_webhook(request):
                     content=order.content,
                     defaults={"expires_at": timezone.now() + timedelta(days=order.content.access_duration_days)},
                 )
+            logger.info("Webhook: Order %s marked as paid, enrollment created", order_id)
         else:
             order.status = "failed"
             order.save(update_fields=["status"])
+            logger.info("Webhook: Order %s marked as failed", order_id)
 
     return Response({"ok": True}, status=200)
 
@@ -247,6 +253,59 @@ def statics(request):
         "total_influencers": User.objects.filter(user_type=User.UserType.INFLUENCER).count(),
         "total_clients": User.objects.filter(user_type=User.UserType.CLIENT).count(),
     })
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def confirm_pending_orders(request):
+    """Reconcile any pending orders for the current user by checking Tap charge status."""
+    if not TAP_SECRET:
+        return Response({"ok": False, "error": "Payment gateway not configured."}, status=503)
+
+    pending_orders = Order.objects.filter(
+        user=request.user,
+        status=Order.Status.PENDING,
+        tap_charge_id__isnull=False,
+    )
+    results = []
+    for order in pending_orders:
+        try:
+            res = requests.get(
+                f"https://api.tap.company/v2/charges/{order.tap_charge_id}",
+                headers={"Authorization": f"Bearer {TAP_SECRET}"},
+                timeout=15,
+            )
+            if not res.ok:
+                logger.warning("Confirm: Tap API returned %s for order %s", res.status_code, order.id)
+                continue
+            charge = res.json()
+            charge_status = charge.get("status")
+            if charge_status == "CAPTURED":
+                with transaction.atomic():
+                    order = Order.objects.select_for_update().get(id=order.id)
+                    if order.status != Order.Status.PENDING:
+                        continue
+                    order.status = "paid"
+                    order.save(update_fields=["status"])
+                    if order.content:
+                        Enrollment.objects.get_or_create(
+                            user=order.user,
+                            content=order.content,
+                            defaults={"expires_at": timezone.now() + timedelta(days=order.content.access_duration_days)},
+                        )
+                results.append({"order_id": order.id, "status": "paid"})
+                logger.info("Confirm: Order %s reconciled as paid", order.id)
+            elif charge_status == "FAILED":
+                with transaction.atomic():
+                    order = Order.objects.select_for_update().get(id=order.id)
+                    if order.status != Order.Status.PENDING:
+                        continue
+                    order.status = "failed"
+                    order.save(update_fields=["status"])
+                results.append({"order_id": order.id, "status": "failed"})
+        except requests.RequestException as e:
+            logger.error("Confirm: Failed to check charge for order %s: %s", order.id, e)
+    return Response({"ok": True, "reconciled": results})
 
 
 

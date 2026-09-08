@@ -10,7 +10,7 @@ function CreatorCard({ influencer }) {
     const name = [influencer.first_name, influencer.last_name].filter(Boolean).join(" ") || influencer.username;
     return (
         <Link
-            href={`/creators/${influencer.username}`}
+            href={`/@/${influencer.username}`}
             className="flex flex-col gap-2 group items-center"
         >
             <div className="relative rounded-2xl overflow-hidden w-full">

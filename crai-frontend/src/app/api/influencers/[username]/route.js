@@ -4,12 +4,14 @@ export async function GET(request, { params }) {
     const accessToken = request.cookies.get("access")?.value;
     const { username } = await params;
     try {
+        const headers = {};
+        if (accessToken) {
+            headers.Authorization = `Bearer ${accessToken}`;
+        }
         const response = await fetch(`${process.env.BACKEND_URL}/api/influencers/${username}`,
             {
                 method: "GET",
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                },
+                headers,
                 cache: "no-store",
             }
         );
