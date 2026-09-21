@@ -32,7 +32,6 @@ export default function Explore() {
             const response = await fetch(`/api/influencers?${searchParams.toString()}`, {method: "GET"});
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 setCreators(data.data.results);
                 setPagination({count: data.data.count, pageSize: 48});
             }

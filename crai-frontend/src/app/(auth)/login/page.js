@@ -32,7 +32,6 @@ function LoginForm() {
             body: JSON.stringify(values),
         });
         const data = await response.json();
-        console.log(data);
         if (data.status < 300 && data.status >= 200) {
             setSuccess(true);
             setError(false);
@@ -61,12 +60,12 @@ function LoginForm() {
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4">
                     <div className="flex flex-col gap-1">
                         <label htmlFor="username">{locale == "ar" ? "اسم المستخدم أو البريد الإلكتروني" : "Username or Email"}</label>
-                        <input type="text" id="username" {...register("username")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" />
+                        <input type="text" id="username" autoComplete="username" {...register("username")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" />
                         {errors.username && <span className="text-red-500 text-sm">{errors.username.message}</span>}
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="password">{locale == "ar" ? "كلمة المرور" : "Password"}</label>
-                        <input type="password" id="password" {...register("password")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" />
+                        <input type="password" id="password" autoComplete="current-password" {...register("password")} className="border border-gray-200 rounded-lg px-4 py-2 outline-none" />
                         {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
                     </div>
                     <div className="flex justify-end">

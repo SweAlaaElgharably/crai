@@ -27,7 +27,6 @@ export default function ResetPassword() {
             body: JSON.stringify({...values, uid: params.uid, token: params.token}),
         });
         const data = await response.json();
-        console.log(data);
         if (data.status < 300 && data.status >= 200) {setSuccess(true);}
         else {setError(true); setApiErrors(Object.values(data.data).flat());}
     }

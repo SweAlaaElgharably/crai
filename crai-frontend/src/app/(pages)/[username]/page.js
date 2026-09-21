@@ -1,20 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
 import { FaUsers, FaHeart } from "react-icons/fa6";
+import { FaUserPlus, FaUserCheck } from "react-icons/fa";
 import { LuLoaderCircle, LuLock, LuArrowRight, LuCalendar } from "react-icons/lu";
+import { useUserStore } from "@/stores/userStore";
 
 export default function PublicCreatorPage() {
     const locale = useLocale();
     const ar = locale === "ar";
     const params = useParams();
     const username = params?.username;
+    const user = useUserStore((state) => state.user);
 
     const [creator, setCreator] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [followLoading, setFollowLoading] = useState(false);
 
     useEffect(() => {
         if (!username) return;
@@ -23,7 +27,7 @@ export default function PublicCreatorPage() {
             try {
                 setLoading(true);
                 setError("");
-                const res = await fetch(`/api/influencers/${username}`, { cache: "no-store" });
+                const res = await fetch(`/api/influencers/${username}`, { cache: "no-store", credentials: "include" });
                 const result = await res.json().catch(() => ({}));
                 if (!res.ok) {
                     throw new Error(result?.detail || (ar ? "المبدع غير موجود" : "Creator not found"));
@@ -40,6 +44,30 @@ export default function PublicCreatorPage() {
         return () => { cancelled = true; };
     }, [username, ar]);
 
+    const handleFollow = async () => {
+        if (!creator || followLoading) return;
+        try {
+            setFollowLoading(true);
+            const method = creator.is_following ? "DELETE" : "POST";
+            const response = await fetch(`/api/influencers/${username}/follow`, { method, credentials: "include" });
+            const text = await response.text();
+            const result = text ? JSON.parse(text) : null;
+            if (!response.ok) {
+                throw new Error(result?.detail || (ar ? "حدث خطأ" : "Something went wrong"));
+            }
+            const isFollowing = result.following;
+            setCreator((current) => ({
+                ...current,
+                is_following: isFollowing,
+                followers_count: isFollowing ? current.followers_count + 1 : Math.max(0, current.followers_count - 1),
+            }));
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setFollowLoading(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex items-center justify-center py-32">
@@ -49,21 +77,12 @@ export default function PublicCreatorPage() {
     }
 
     if (error || !creator) {
-        return (
-            <div className="max-w-xl mx-auto px-4 py-24 text-center">
-                <div className="text-6xl mb-4">🙁</div>
-                <h1 className="text-2xl font-semibold text-gray-900 mb-2">{ar ? "المبدع غير موجود" : "Creator not found"}</h1>
-                <p className="text-gray-500 mb-6">{error || (ar ? "قد يكون الرابط غير صحيح أو أن المبدع غير متاح." : "The link may be incorrect or the creator is unavailable.")}</p>
-                <Link href="/creators" className="inline-flex items-center gap-2 text-primary font-semibold hover:underline">
-                    {ar ? "تصفح جميع المبدعين" : "Browse all creators"}
-                </Link>
-            </div>
-        );
+        notFound();
     }
 
+    const canFollow = user && user.user_type !== "influencer" && creator?.username !== user.username;
+
     const name = [creator.first_name, creator.last_name].filter(Boolean).join(" ") || creator.username;
-    console.log(creator);
-    console.log(creator.avatar);
     return (
         <div className="w-full">
             <div className="max-w-4xl mx-auto px-4 pb-16">
@@ -85,9 +104,31 @@ export default function PublicCreatorPage() {
                     </div>
 
                     {/* Stats */}
-                    <div className="flex items-center justify-center gap-6 sm:gap-8 bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4">
-                        <Stat label={ar ? "متابع" : "Followers"} value={creator.followers_count} icon={FaUsers} />
-                        <Stat label={ar ? "محتوى" : "Content"} value={creator.content_count} icon={FaHeart} />
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="flex items-center justify-center gap-6 sm:gap-8 bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4">
+                            <Stat label={ar ? "متابع" : "Followers"} value={creator.followers_count} icon={FaUsers} />
+                            <Stat label={ar ? "محتوى" : "Content"} value={creator.content_count} icon={FaHeart} />
+                        </div>
+                        {canFollow && (
+                            <button
+                                type="button"
+                                onClick={handleFollow}
+                                disabled={followLoading}
+                                className={`flex items-center justify-center gap-2 min-w-32 px-5 py-2.5 rounded-lg font-medium transition disabled:opacity-50 ${creator.is_following ? "bg-gray-100 text-gray-700 hover:bg-gray-200" : "bg-primary text-white hover:bg-primary/80"}`}
+                            >
+                                {creator.is_following ? (
+                                    <>
+                                        <FaUserCheck className="w-4 h-4" />
+                                        {ar ? "ألغاء المتابعة" : "Unfollow"}
+                                    </>
+                                ) : (
+                                    <>
+                                        <FaUserPlus className="w-4 h-4" />
+                                        {ar ? "متابعة" : "Follow"}
+                                    </>
+                                )}
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -149,18 +190,20 @@ export default function PublicCreatorPage() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-12 bg-gradient-to-br from-[#0b0b2b] via-[#102a4c] to-[#0bb2b0] rounded-3xl p-8 text-center text-white">
-                    <h3 className="text-2xl font-bold mb-2">{ar ? "مهتم بمحتوى " + name + "؟" : `Interested in ${name}'s content?`}</h3>
-                    <p className="text-white/70 mb-6">{ar ? "انضم إلى المنصة لتتابع المبدعين وتتلقى محتواهم الحصري" : "Join the platform to follow creators and get exclusive content"}</p>
-                    <div className="flex items-center justify-center gap-3 flex-wrap">
-                        <Link href="/register" className="px-6 py-2.5 rounded-xl bg-white text-gray-900 font-semibold hover:bg-gray-100 transition">
-                            {ar ? "إنشاء حساب" : "Sign up"}
-                        </Link>
-                        <Link href="/login" className="px-6 py-2.5 rounded-xl bg-white/10 border border-white/30 font-semibold hover:bg-white/20 transition">
-                            {ar ? "تسجيل الدخول" : "Log in"}
-                        </Link>
+                {!user && (
+                    <div className="mt-12 bg-gradient-to-br from-[#0b0b2b] via-[#102a4c] to-[#0bb2b0] rounded-3xl p-8 text-center text-white">
+                        <h3 className="text-2xl font-bold mb-2">{ar ? "مهتم بمحتوى " + name + "؟" : `Interested in ${name}'s content?`}</h3>
+                        <p className="text-white/70 mb-6">{ar ? "انضم إلى المنصة لتتابع المبدعين وتتلقى محتواهم الحصري" : "Join the platform to follow creators and get exclusive content"}</p>
+                        <div className="flex items-center justify-center gap-3 flex-wrap">
+                            <Link href="/register" className="px-6 py-2.5 rounded-xl bg-white text-gray-900 font-semibold hover:bg-gray-100 transition">
+                                {ar ? "إنشاء حساب" : "Sign up"}
+                            </Link>
+                            <Link href="/login" className="px-6 py-2.5 rounded-xl bg-white/10 border border-white/30 font-semibold hover:bg-white/20 transition">
+                                {ar ? "تسجيل الدخول" : "Log in"}
+                            </Link>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

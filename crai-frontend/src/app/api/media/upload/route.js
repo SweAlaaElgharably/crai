@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request) {
+    const limitResponse = rateLimit(request, "media-upload");
+    if (limitResponse) return limitResponse;
     const accessToken = request.cookies.get("access")?.value;
     if (!accessToken) {return NextResponse.json({ detail: "Authentication required." }, { status: 401 });}
     try {

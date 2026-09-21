@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
     reactCompiler: true,
     output: "standalone",
+    poweredByHeader: false,
     experimental: {
         proxyClientMaxBodySize: '256mb',
     },

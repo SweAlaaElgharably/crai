@@ -1,9 +1,12 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 const isProd = process.env.NODE_ENV === "production";
 
 export async function POST(request) {
+    const limitResponse = rateLimit(request, "login");
+    if (limitResponse) return limitResponse;
     const data = await request.json();
     const response = await fetch(`${process.env.BACKEND_URL}/api/auth/jwt/create`, {
         method: "POST",

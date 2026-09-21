@@ -30,7 +30,6 @@ export default function Header() {
         router.push("/");
         router.refresh();
     };
-    console.log(user);    
     return (
         <header className="bg-primary shadow-sm z-10 sticky top-0 w-full">
             <div className="max-w-350 h-24 w-full px-4 mx-auto grid grid-cols-2 lg:grid-cols-3">

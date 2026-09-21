@@ -19,7 +19,6 @@ export default function Feed() {
             const response = await fetch(`/api/following-contents?${searchParams.toString()}`, {method: "GET", credentials: "include"});
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 setContents(data.data.results);
                 setPagination({count: data.data.count, pageSize: 24});
             }

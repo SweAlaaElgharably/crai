@@ -25,7 +25,6 @@ export default function ForgotPassword() {
             body: JSON.stringify(values),
         });
         const data = await response.json();
-        console.log(data);
         if (data.status < 300 && data.status >= 200) {setSuccess(true);setError(false); setApiErrors([]);}
         else {setError(true); setSuccess(false); setApiErrors(Object.values(data.data).flat())}
     }

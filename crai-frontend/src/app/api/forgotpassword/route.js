@@ -1,4 +1,8 @@
+import { rateLimit } from "@/lib/rateLimit";
+
 export async function POST(request) {
+    const limitResponse = rateLimit(request, "forgotpassword");
+    if (limitResponse) return limitResponse;
     const data = await request.json();
     const response = await fetch(`${process.env.BACKEND_URL}/api/auth/users/reset_password/`, {
         method: "POST",

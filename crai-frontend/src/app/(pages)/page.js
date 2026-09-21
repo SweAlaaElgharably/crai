@@ -22,10 +22,10 @@ export default function Home() {
         setActiveTestimonials(type);
     }
     return (
-        <>
+        <main>
             <HeroSection />
             <div className="flex flex-col justify-center items-center gap-4 px-4 py-16 max-w-350 h-24 w-full mx-auto">
-                <h1 className="text-5xl text-primary font-medium">{locale == "ar" ? "ما هو CRAI؟" : "What is CRAI?"}</h1>
+                <h2 className="text-5xl text-primary font-medium">{locale == "ar" ? "ما هو CRAI؟" : "What is CRAI?"}</h2>
                 <p className="text-gray-700 max-w-150 text-center">{t("whocrai")}</p>
             </div>
             <div className="max-w-350 w-full px-4 py-16 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -61,7 +61,7 @@ export default function Home() {
             <div className="bg-gray-100">
                 <div className="max-w-350 w-full px-4 py-16 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-4 justify-center">
-                        <h1 className="text-3xl sm:text-4xl text-black font-medium">{t("becometitle")}</h1>
+                        <h2 className="text-3xl sm:text-4xl text-black font-medium">{t("becometitle")}</h2>
                         <p className="text-black/80">{t("becometext")}</p>
                         <Link className='flex items-center justify-center w-fit rounded-xl border-2 border-primary bg-white px-12 py-4 text-lg font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white' href="/register">{locale == "ar" ? "كن مبدعاً" : "Become a Creator"}</Link>
                     </div>
@@ -70,14 +70,14 @@ export default function Home() {
                 <div className="max-w-350 w-full px-4 py-16 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Image src={discover} alt="Discover" className="w-full md:w-[80%] h-auto rounded-xl"></Image>
                     <div className="flex flex-col gap-4 justify-center">
-                        <h1 className="text-3xl sm:text-4xl text-black font-medium">{t("discovertitle")}</h1>
+                        <h2 className="text-3xl sm:text-4xl text-black font-medium">{t("discovertitle")}</h2>
                         <p className="text-black/80">{t("discovertext")}</p>
                         <Link className='flex items-center justify-center w-fit rounded-xl border-2 border-primary bg-white px-12 py-4 text-lg font-semibold text-primary transition-colors duration-300 hover:bg-primary hover:text-white' href="/creators">{locale == "ar" ? "اكتشف المبدعين" : "Discover Creators"}</Link>
                     </div>
                 </div>
             </div>
             <div id="testimonials" className="max-w-350 w-full px-4 py-16 mx-auto flex flex-col items-center justify-center gap-4">
-                <h1 className="mt-2 text-5xl sm:text-6xl font-bold">{locale == "en" ? "Testimonials" : "آراء صناع المحتوى"}</h1>
+                <h2 className="mt-2 text-5xl sm:text-6xl font-bold">{locale == "en" ? "Testimonials" : "آراء صناع المحتوى"}</h2>
                 {locale == "en" ? <ImQuotesLeft className="text-4xl text-violet-950 mb-4" /> : <ImQuotesRight className="text-4xl text-violet-950 mb-4" />}
                 <div className="flex flex-col gap-1 items-center">
                     { activeTestimonials === "a" ? 
@@ -103,7 +103,7 @@ export default function Home() {
                     </button>
                 </div>
             </div>
-        </>
+        </main>
     );
 }
 

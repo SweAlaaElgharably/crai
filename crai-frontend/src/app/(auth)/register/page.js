@@ -218,8 +218,9 @@ export default function Register() {
                             {message}
                         </div>
                     ))}
-                {step === 1 && (
-                    <>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    {step === 1 && (
+                    <div className="flex flex-col gap-4">
                         <div className="flex gap-2 rounded-xl bg-gray-100 p-1">
                             <button
                                 type="button"
@@ -244,12 +245,12 @@ export default function Register() {
                                             : "text-gray-600"
                                     }
                                 `}
+                                aria-pressed={userType === "client"}
                             >
                                 {locale === "ar"
                                     ? "مستخدم"
                                     : "User"}
                             </button>
-
                             <button
                                 type="button"
                                 onClick={() =>
@@ -273,6 +274,7 @@ export default function Register() {
                                             : "text-gray-600"
                                     }
                                 `}
+                                aria-pressed={userType === "influencer"}
                             >
                                 {locale === "ar"
                                     ? "مبدع"
@@ -290,6 +292,7 @@ export default function Register() {
                                 <input
                                     type="text"
                                     id="first_name"
+                                    autoComplete="given-name"
                                     {...register("first_name")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
@@ -300,9 +303,6 @@ export default function Register() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Last Name */}
-
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="last_name">
                                     {locale === "ar"
@@ -313,6 +313,7 @@ export default function Register() {
                                 <input
                                     type="text"
                                     id="last_name"
+                                    autoComplete="family-name"
                                     {...register("last_name")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
@@ -323,9 +324,6 @@ export default function Register() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Username */}
-
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="username">
                                     {locale === "ar"
@@ -336,6 +334,7 @@ export default function Register() {
                                 <input
                                     type="text"
                                     id="username"
+                                    autoComplete="username"
                                     {...register("username")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
@@ -346,9 +345,6 @@ export default function Register() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Email */}
-
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="email">
                                     {locale === "ar"
@@ -359,6 +355,7 @@ export default function Register() {
                                 <input
                                     type="email"
                                     id="email"
+                                    autoComplete="email"
                                     {...register("email")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
@@ -369,9 +366,6 @@ export default function Register() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Password */}
-
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="password">
                                     {locale === "ar"
@@ -382,6 +376,7 @@ export default function Register() {
                                 <input
                                     type="password"
                                     id="password"
+                                    autoComplete="new-password"
                                     {...register("password")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
@@ -392,9 +387,6 @@ export default function Register() {
                                     </span>
                                 )}
                             </div>
-
-                            {/* Confirm Password */}
-
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="re_password">
                                     {locale === "ar"
@@ -405,6 +397,7 @@ export default function Register() {
                                 <input
                                     type="password"
                                     id="re_password"
+                                    autoComplete="new-password"
                                     {...register("re_password")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
@@ -423,6 +416,7 @@ export default function Register() {
                                 </label>
                                 <select
                                     id="country_code"
+                                    autoComplete="tel-country-code"
                                     {...register("country_code")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none bg-white cursor-pointer appearance-none"
                                 >
@@ -439,7 +433,7 @@ export default function Register() {
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="phone">{locale === "ar" ? "رقم الهاتف": "Phone"}</label>
-                                <input type="tel" id="phone" {...register("phone")}
+                                <input type="tel" id="phone" autoComplete="tel" {...register("phone")}
                                     className="border border-gray-200 rounded-lg px-4 py-2 outline-none"
                                 />
                                 {errors.phone && (<span className="text-red-500 text-sm">{errors.phone.message}</span>)}
@@ -450,10 +444,10 @@ export default function Register() {
                                 {locale === "ar" ? "التالي" : "Next"}
                             </button>
                         </div>
-                    </>
-                )}
-                {step === 2 && (
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+                    </div>
+                    )}
+                    {step === 2 && (
+                    <div className="flex flex-col gap-5">
                         <div>
                             <h2 className="text-xl font-bold text-[#0b0b2b]">
                                 {locale === "ar" ? "اختر اهتماماتك" : "Choose Your Interests"}
@@ -508,8 +502,9 @@ export default function Register() {
                                 }
                             </button>
                         </div>
-                    </form>
-                )}
+                    </div>
+                   )}
+                </form>
             </div>
         </div>
     );

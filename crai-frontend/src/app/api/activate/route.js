@@ -1,4 +1,8 @@
+import { rateLimit } from "@/lib/rateLimit";
+
 export async function POST(request) {
+    const limitResponse = rateLimit(request, "activate");
+    if (limitResponse) return limitResponse;
     const data = await request.json();
     const response = await fetch(`${process.env.BACKEND_URL}/api/auth/users/activation/`, {
         method: "POST",

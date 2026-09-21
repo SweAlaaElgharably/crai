@@ -83,7 +83,6 @@ export default function InfluencerProfile({ username }) {
             </div>
         );
     }
-    console.log(influencer);
     return (
         <div className="w-full max-w-7xl mx-auto px-4 py-8">
             <div className="flex flex-col justify-center items-center gap-2">

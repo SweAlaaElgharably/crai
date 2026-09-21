@@ -28,6 +28,12 @@ function matches(pathname, base) {
     return pathname === base || pathname.startsWith(`${base}/`);
 }
 
+function nextWithPath(request) {
+    const headers = new Headers(request.headers);
+    headers.set("x-pathname", request.nextUrl.pathname);
+    return NextResponse.next({ request: { headers } });
+}
+
 export default async function proxy(request) {
     const { pathname } = request.nextUrl;
 
@@ -37,7 +43,7 @@ export default async function proxy(request) {
     const isClientPage = !isInfluencerPage && clientPages.some((page) => matches(pathname, page));
     const needsAuth = isInfluencerPage || isClientPage || allUsersPages.some((page) => matches(pathname, page));
 
-    if (!isAuthPage && !needsAuth && !isHomePage) { return NextResponse.next(); }
+    if (!isAuthPage && !needsAuth && !isHomePage) { return nextWithPath(request); }
 
     const accessToken = request.cookies.get("access")?.value;
     const user = accessToken ? await getUser(accessToken) : null;
@@ -52,7 +58,7 @@ export default async function proxy(request) {
             loginUrl.searchParams.set("redirect", pathname);
             return NextResponse.redirect(loginUrl);
         }
-        if (userType === "staff") { return NextResponse.next(); }
+        if (userType === "staff") { return nextWithPath(request); }
         if (isInfluencerPage && userType !== "influencer") {
             return NextResponse.redirect(new URL("/dashboard", request.url));
         }
@@ -61,7 +67,7 @@ export default async function proxy(request) {
         }
     }
 
-    return NextResponse.next();
+    return nextWithPath(request);
 }
 
 export const config = {matcher: ["/:path*"]};

@@ -1,4 +1,8 @@
+import { rateLimit } from "@/lib/rateLimit";
+
 export async function POST(request) {
+    const limitResponse = rateLimit(request, "setpassword");
+    if (limitResponse) return limitResponse;
     const accessToken = request.cookies.get("access")?.value;
     const data = await request.json();
     try {

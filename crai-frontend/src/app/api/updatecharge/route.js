@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function PUT(request) {
+    const limitResponse = rateLimit(request, "updatecharge");
+    if (limitResponse) return limitResponse;
     const accessToken = request.cookies.get("access")?.value;
     if (!accessToken) {
         return NextResponse.json({ data: { detail: "Authentication required." } }, { status: 401 });
