@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import InfluencerDiscoveryView, InfluencerListView, InfluencerProfileView, InfluencerFollowView, InfluencerFollowToggleView, InfluencerSubscribersView, InfluencerAnalyticsView
+from .views import InfluencerDiscoveryView, InfluencerListView, InfluencerProfileView, InfluencerFollowView, InfluencerFollowToggleView, InfluencerSubscribersView, InfluencerAnalyticsView, ContactView
 
 urlpatterns = [
     path("influencer/discovery", InfluencerDiscoveryView.as_view(), name="influencer_discovery"),
@@ -9,4 +9,5 @@ urlpatterns = [
     path("influencers/<str:username>/follow/toggle/", InfluencerFollowToggleView.as_view(), name="influencer-follow-toggle"),
     path("subscribers/", InfluencerSubscribersView.as_view(), name="influencer-subscribers"),
     path("analytics/", InfluencerAnalyticsView.as_view(), name="influencer-analytics"),
+    path("contact/", ContactView.as_view(), name="contact"),
 ]

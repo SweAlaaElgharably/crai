@@ -2,6 +2,9 @@ from datetime import timedelta
 from django.db.models import Count, Q, Exists, OuterRef, Prefetch, Min, Max, Sum
 from django.db.models.functions import TruncMonth, TruncDate
 from django.utils import timezone
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -378,3 +381,57 @@ class InfluencerAnalyticsView(APIView):
                 "growth": _growth_series(subscribers_qs, "created_at", now),
             },
         })
+
+CONTACT_CATEGORIES = {
+    "support": {"email": "support@cr-ai.cloud", "label": "General Support"},
+    "privacy": {"email": "privacy@cr-ai.cloud", "label": "Privacy"},
+    "partners": {"email": "partners@cr-ai.cloud", "label": "Business Partnerships"},
+    "media": {"email": "media@cr-ai.cloud", "label": "Media"},
+}
+
+class ContactView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        title = (request.data.get("title") or "").strip()
+        message = (request.data.get("message") or "").strip()
+        category = (request.data.get("type") or "").strip().lower()
+        name = (request.data.get("name") or "").strip()
+        sender_email = (request.data.get("email") or "").strip()
+
+        category_info = CONTACT_CATEGORIES.get(category)
+        if not category_info:
+            return Response({"detail": "Invalid problem type."}, status=status.HTTP_400_BAD_REQUEST)
+        if not title:
+            return Response({"detail": "Title is required."}, status=status.HTTP_400_BAD_REQUEST)
+        if not message:
+            return Response({"detail": "Message is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        subject = f"[{category_info['label']}] {title}"
+
+        text_body = (
+            "New contact message received on CRAI.\n\n"
+            f"Title: {title}\n"
+            f"Type: {category_info['label']}\n"
+            + (f"From: {name}\n" if name else "")
+            + (f"Reply to: {sender_email}\n" if sender_email else "")
+            + f"\nMessage:\n{message}"
+        )
+        html_body = render_to_string(
+            "emails/contact.html",
+            {"title": title, "message": message, "category_label": category_info["label"], "name": name, "sender_email": sender_email},
+            request,
+        )
+
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body=text_body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[category_info["email"]],
+        )
+        email.attach_alternative(html_body, "text/html")
+        if sender_email:
+            email.reply_to = [sender_email]
+        email.send(fail_silently=False)
+
+        return Response({"detail": "Message sent successfully."}, status=status.HTTP_200_OK)

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TiHome } from "react-icons/ti";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiHeadphones } from "react-icons/fi";
 import { MdOutlineLanguage } from "react-icons/md";
 import { BsPeopleFill } from "react-icons/bs";
 import { IoMdAnalytics } from "react-icons/io";
@@ -65,6 +65,9 @@ export default function DashboardNavbar() {
                         <LuCircleDollarSign />
                     </Link>
                 )}
+                <Link href="/contact" className={`h-10 w-10 text-2xl rounded-xl flex items-center justify-center transition-all duration-300 ${pathname.startsWith("/contact") ? "text-black bg-stone-200" : "text-stone-600 hover:bg-stone-100"}`}>
+                    <FiHeadphones />
+                </Link>
             </nav>
             <nav className="flex flex-col gap-2">
                 <Link href="/profile" className="flex items-center justify-center">

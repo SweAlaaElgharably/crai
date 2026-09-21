@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>New contact message - CRAI</title>
+    </head>
+    <body style="margin:0;padding:0;background:#eef3f6;font-family:Arial,Helvetica,sans-serif;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#eef3f6;padding:30px 10px;">
+            <tr>
+                <td align="center">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="700" style="width:100%;max-width:700px;background:#ffffff;border-radius:24px;overflow:hidden;">
+                        <tr>
+                            <td align="center" style="padding:40px 30px 10px;">
+                                <img src="https://cr-ai.cloud/logo-primary.png" alt="CRAI" width="150" style="display:block;border:0;width:150px;height:auto;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="padding-top:20px;">
+                                <h1 style="margin:0;font-size:32px;font-weight:bold;color:#222;">New Contact Message</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="padding:20px 40px 0;">
+                                <p style="margin:0;font-size:17px;line-height:28px;color:#666666;">A new message has been submitted through the CRAI contact form.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="padding:30px 40px 0;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f7fafb;border-radius:16px;">
+                                    <tr>
+                                        <td style="padding:24px 28px;font-size:16px;color:#333333;line-height:26px;">
+                                            <div style="margin-bottom:14px;">
+                                                <strong style="color:#222;">Title:</strong> {{ title }}
+                                            </div>
+                                            <div style="margin-bottom:14px;">
+                                                <strong style="color:#222;">Type:</strong> {{ category_label }}
+                                            </div>
+                                            {% if name %}
+                                            <div style="margin-bottom:14px;">
+                                                <strong style="color:#222;">From:</strong> {{ name }}
+                                            </div>
+                                            {% endif %}
+                                            {% if sender_email %}
+                                            <div style="margin-bottom:14px;">
+                                                <strong style="color:#222;">Reply to:</strong> <a href="mailto:{{ sender_email }}" style="color:#0bb2b0;text-decoration:none;">{{ sender_email }}</a>
+                                            </div>
+                                            {% endif %}
+                                            <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5ecef;">
+                                                <strong style="color:#222;">Message:</strong>
+                                            </div>
+                                            <p style="margin:8px 0 0;white-space:pre-wrap;color:#444444;">{{ message }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="https://cr-ai.cloud/footer.jpeg" alt="CRAI" width="700" style="display:block;width:100%;height:auto;border:0;">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
